@@ -19,6 +19,10 @@ commitの目安　　
 ```bash
 http://localhost:3000/
 ```
+### colabo
+- [これから始める人向け Google Colaboratoryの操作方法](https://qiita.com/DeepTama/items/02e299b2c616a603fb4a)
+- [Google Colaboratoryの無料GPUで、Deep Learningをしよう](https://note.com/mucun_wuxian/n/n62246a0277c1)
+
 
 ### mdの記法
 [参考サイト](https://qiita.com/oreo/items/82183bfbaac69971917f)
