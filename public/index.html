@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8"><!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>株価チャートアプリ</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>株価チャート検索</h1>
+
+    <!-- 検索フォームを追加 -->
+    <div id="search-container" style="text-align: center; margin-bottom: 20px;">
+        <input type="text" id="symbol-input" placeholder="例: AAPL, GOOGL">
+        <button id="search-button">チャート表示</button>
+    </div>
+
+    <!-- グラフがこの中に描画されます -->
+    <div style="width: 80%; margin: auto;">
+        <canvas id="stockChart"></canvas>
+    </div>
+    
+    <p id="loading-text" style="text-align: center; display: none;">データを読み込み中...</p>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>株価チャートアプリ</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Chart.jsをインターネット経由で読み込みます -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>株価チャート</h1>
+
+    <!-- グラフがこの中に描画されます -->
+    <div style="width: 80%; margin: auto;">
+        <canvas id="stockChart"></canvas>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
