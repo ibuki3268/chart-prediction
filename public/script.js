@@ -1,4 +1,3 @@
-// グローバルスコープにchart変数を定義
 let stockChart;
 
 // ボタンがクリックされたらグラフを更新する関数
@@ -39,7 +38,6 @@ async function updateChart() {
         // Step 3: グラフを描画または更新
         const ctx = document.getElementById('stockChart').getContext('2d');
 
-        // もし既にチャートが存在していたら、それを破棄する
         if (stockChart) {
             stockChart.destroy();
         }
