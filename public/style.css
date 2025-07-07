@@ -1,0 +1,14 @@
+#search-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#chart-container {
+    width: 80%;
+    margin: auto;
+}
+
+#loading-text {
+    text-align: center;
+    display: none; /* 初期状態では非表示 */
+}
