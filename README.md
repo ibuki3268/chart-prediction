@@ -1,5 +1,6 @@
 # アプリ
-## git・GitHUbの関しての事
+## git・GitHubの関しての事
+### 個人的な勉強メモ
 
 ```bash
 git add .

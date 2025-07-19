@@ -5,10 +5,7 @@ const { calculatePrediction } = require('./prediction.js');
 const app = express();
 const port = 3000;
 
-// ★★★ 修正点 ★★★
-// ルートURL('/')へのリクエストを、静的ファイルの提供より先に処理します。
-// これにより、http://localhost:3000/ にアクセスした際に、
-// 必ず start.html が表示されるようになります。
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'start.html'));
 });
@@ -21,7 +18,7 @@ app.get('/chart', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'chart.html'));
 });
 
-// APIエンドポイントは変更なし
+
 app.get('/api/predict', async (req, res) => {
     const symbol = req.query.symbol || 'IBM';
 
