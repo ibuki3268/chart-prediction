@@ -27,7 +27,7 @@ app.get('/api/predict', async (req, res) => {
     }
 
     try {
-        const apiKey = '6GPBO86PLOFY3HU8'; 
+        const apiKey = process.env.ALPHA_VANTAGE_API_KEY;
         const response = await axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}&apikey=${apiKey}`);
         const data = response.data;
 
