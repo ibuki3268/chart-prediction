@@ -4,15 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>株価予測アプリへようこそ</title>
-    <!-- 新しく作るCSSファイルを読み込みます -->
+    <!-- start.cssファイルを読み込みます -->
     <link rel="stylesheet" href="start.css">
 </head>
 <body>
     <div class="container">
         <h1>株価予測アプリ</h1>
         <p>過去の株価データと線形回帰モデルを用いて、未来の株価を予測します。</p>
-        <!-- このボタンを押すとチャートページに移動します -->
-        <a href="/chart" class="start-button">予測を開始する</a>
+        
+        <div class="button-container">
+            <!-- 既存のボタン -->
+            <a href="/chart" class="start-button">予測を開始する</a>
+            
+            <!-- 新しいボタン（工事中） -->
+            <a href="#" class="start-button disabled">工事中</a>
+            <a href="#" class="start-button disabled">工事中</a>
+        </div>
     </div>
+
+    <script>
+        // "工事中"ボタンがクリックされたときの処理
+        document.querySelectorAll('.disabled').forEach(button => {
+            button.addEventListener('click', (event) => {
+                event.preventDefault(); // ページ遷移を無効化
+                alert('この機能は現在準備中です。');
+            });
+        });
+    </script>
 </body>
 </html>
