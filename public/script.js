@@ -3,7 +3,7 @@ let stockChart;
 // ボタンがクリックされたらグラフを更新する関数
 async function updateChart() {
     const symbolInput = document.getElementById('symbol-input');
-    const symbol = symbolInput.value.toUpperCase(); // 大文字に統一
+    const symbol = symbolInput.value.trim().toUpperCase(); // 大文字に統一
     const loadingText = document.getElementById('loading-text');
 
     if (!symbol) {
@@ -15,27 +15,27 @@ async function updateChart() {
 
     try {
         // Step 1: バックエンドに選択された銘柄コードでデータをリクエスト
-        const response = await fetch(`/api/stockdata?symbol=${symbol}`);
+        const response = await fetch(`/api/predict?symbol=${symbol}`);
         if (!response.ok) {
-            throw new Error(`サーバーとの通信に失敗しました: ${response.statusText}`);
+            const errorData = await response.json();
+            throw new Error(errorData.error || `サーバーとの通信に失敗しました: ${response.statusText}`);
         }
+
+
         const data = await response.json();
+        const historical = data.historical;
+        const prediction = data.prediction;
 
-        if (!data['Time Series (Daily)']) {
-            if (data['Note']) {
-                alert(`APIの利用制限に達したようです。\nしばらく待ってから、再度試してください。`);
-            } else {
-                alert(`「${symbol}」のデータ取得に失敗しました。銘柄コードが正しいか確認してください。`);
-            }
-            return;
-        }
+        const allLabels = [...historical.labels, ...prediction.labels];
+        
+        // 実績データの後ろに、予測データと同じ数の空データを追加
+        const historicalPricesPadded = [...historical.prices, ...new Array(prediction.prices.length).fill(null)];
+        
+        // 予測データが実績データの終点から始まるように、空データを追加
+        const lastHistoricalPrice = historical.prices[historical.prices.length - 1];
+        const predictionPricesPadded = [...new Array(historical.prices.length - 1).fill(null), lastHistoricalPrice, ...prediction.prices];
 
-        // Step 2: データを加工
-        const timeSeries = data['Time Series (Daily)'];
-        const labels = Object.keys(timeSeries).reverse();
-        const prices = labels.map(date => timeSeries[date]['4. close']);
-
-        // Step 3: グラフを描画または更新
+         // グラフを描画または更新
         const ctx = document.getElementById('stockChart').getContext('2d');
 
         if (stockChart) {
@@ -46,29 +46,45 @@ async function updateChart() {
         stockChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: labels,
+                labels: allLabels,
                 datasets: [{
                     label: `${symbol} 株価 (終値)`,
-                    data: prices,
+                    data: historicalPricesPadded,
                     borderColor: 'rgba(75, 192, 192, 1)',
                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
                     tension: 0.1
-                }]
+                },
+                {
+                        label: `${symbol} 予測 (線形回帰)`,
+                        data: predictionPricesPadded, // 予測データ
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderDash: [5, 5], // 予測線を破線にする
+                        tension: 0.1
+                    }]
             },
             options: {
                 responsive: true,
                 plugins: {
                     title: {
                         display: true,
-                        text: `${symbol} の過去100日間の株価推移`
+                        text: `${symbol}の株価実績と予測`
+                    },
+                    tooltip:{
+                        mode: 'index',
+                        intersect: false,
                     }
+                },
+                scales:{
+                    x:{ display: true, title: { display: true, text: '日付' }},
+                    y:{ display: true, title: { display: true, text: '株価 (USD)' }}
                 }
             }
         });
 
     } catch (error) {
         console.error('チャートの更新中にエラーが発生しました:', error);
-        alert('チャートの更新に失敗しました。詳細はコンソールを確認してください。');
+        alert(error.message);
     } finally {
         loadingText.style.display = 'none'; // 「読み込み中...」を非表示
     }
@@ -79,6 +95,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchButton = document.getElementById('search-button');
     searchButton.addEventListener('click', updateChart);
 
+     const symbolInput = document.getElementById('symbol-input');
+     symbolInput.addEventListener('keyup', (event) => {
+        if (event.key === 'Enter') {
+            updateChart();
+        }
+    });
     // 初期表示としてIBMのチャートを表示
     document.getElementById('symbol-input').value = 'IBM';
     updateChart();
