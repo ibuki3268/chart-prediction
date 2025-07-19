@@ -1,16 +1,27 @@
 const express = require('express');
 const axios = require('axios');
-const { calculatePrediction} = require('./prediction.js');
+const path = require('path');
+const { calculatePrediction } = require('./prediction.js');
 const app = express();
 const port = 3000;
 
-app.use(express.static('public'));
-
+// ★★★ 修正点 ★★★
+// ルートURL('/')へのリクエストを、静的ファイルの提供より先に処理します。
+// これにより、http://localhost:3000/ にアクセスした際に、
+// 必ず start.html が表示されるようになります。
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/index.html');
+  res.sendFile(path.join(__dirname, 'public', 'start.html'));
 });
 
-//データ予測返す
+// publicフォルダ内の静的ファイル(css, js, chart.htmlなど)を提供
+app.use(express.static('public'));
+
+// /chart にアクセスがあったら、チャートページを表示
+app.get('/chart', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'chart.html'));
+});
+
+// APIエンドポイントは変更なし
 app.get('/api/predict', async (req, res) => {
     const symbol = req.query.symbol || 'IBM';
 
@@ -21,29 +32,26 @@ app.get('/api/predict', async (req, res) => {
     try {
         const apiKey = '6GPBO86PLOFY3HU8'; 
         const response = await axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}&apikey=${apiKey}`);
-
         const data = response.data;
-        if (!data['Time Series (Daily)']){
-          let errorMessage = `銘柄コード「${symbol}」のデータが見つかりません。`;
+
+        if (!data['Time Series (Daily)']) {
+            let errorMessage = `銘柄コード「${symbol}」のデータが見つかりません。`;
             if (data['Note']) {
                 errorMessage = 'APIの利用制限に達したようです。\nしばらく待ってから、再度お試しください。';
             }
             return res.status(404).json({ error: errorMessage });
         }
 
-        //予測関数呼び出し　取得
         const timeSeries = data['Time Series (Daily)'];
         const result = calculatePrediction(timeSeries);
-        //計算結果返す
         res.json(result);
 
     } catch (error) {
-        console.error('API:レート制限が来ました', error.message);
-        res.status(500).json({ error: 'errorサーバー内部でエラー' });
+        console.error('APIリクエストまたはデータ処理でエラーが発生しました:', error.message);
+        res.status(500).json({ error: 'サーバー内部でエラーが発生しました。' });
     }
 });
 
 app.listen(port, () => {
-  console.log(` http://localhost:${port} にアクセスしてください`);
+  console.log(`サーバーが起動しました。 http://localhost:${port} にアクセスしてください`);
 });
-
