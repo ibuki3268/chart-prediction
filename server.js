@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const axios = require('axios');
 const path = require('path');
@@ -20,7 +21,7 @@ app.get('/chart', (req, res) => {
 
 
 app.get('/api/predict', async (req, res) => {
-    const symbol = req.query.symbol || 'IBM';
+    const symbol = req.query.symbol || 'GOOGL';
 
     if (!symbol) {
         return res.status(400).json({ error: '銘柄コードが指定されていません' });
