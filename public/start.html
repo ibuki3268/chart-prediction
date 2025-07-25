@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>株価予測アプリへようこそ</title>
-    <!-- start.cssファイルを読み込みます -->
     <link rel="stylesheet" href="start.css">
 </head>
 <body>
@@ -16,20 +15,41 @@
             <!-- 既存のボタン -->
             <a href="/chart" class="start-button">予測を開始する</a>
             
-            <!-- 新しいボタン（工事中） -->
+            <!-- 工事中ボタン -->
             <a href="#" class="start-button disabled">工事中</a>
             <a href="#" class="start-button disabled">工事中</a>
+
+            <!-- 銘柄コード一覧ボタン -->
+            <button id="list-button" class="start-button secondary">銘柄コード一覧</button>
         </div>
     </div>
 
-    <script>
-        // "工事中"ボタンがクリックされたときの処理
-        document.querySelectorAll('.disabled').forEach(button => {
-            button.addEventListener('click', (event) => {
-                event.preventDefault(); // ページ遷移を無効化
-                alert('この機能は現在準備中です。');
-            });
-        });
-    </script>
+    <!-- ここからが銘柄一覧のポップアップ部分 -->
+    <div id="ticker-modal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>主な企業の銘柄コード</h2>
+            
+            <div class="ticker-list">
+                <div class="category">
+                    <h3>アメリカの有名企業 (GAFAMなど)</h3>
+                    <ul>
+                        <li><b>AAPL:</b> Apple Inc.</li>
+                        <li><b>MSFT:</b> Microsoft Corporation</li>
+                        <li><b>AMZN:</b> Amazon.com, Inc.</li>
+                        <li><b>GOOGL:</b> Alphabet Inc. (Google)</li>
+                        <li><b>META:</b> Meta Platforms, Inc.</li>
+                        <li><b>TSLA:</b> Tesla, Inc.</li>
+                        <li><b>NVDA:</b> NVIDIA Corporation</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- ポップアップ部分ここまで -->
+
+    <!-- 外部のJavaScriptファイルを読み込む -->
+    <script src="start.js" defer></script>
 </body>
 </html>
