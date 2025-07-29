@@ -9,27 +9,21 @@
 <body>
     <div class="container">
         <h1>株価予測アプリ</h1>
-        <p>過去の株価データと線形回帰モデルを用いて、未来の株価を予測します。</p>
+        <p>過去の株価データと統計モデルを用いて、未来の株価を予測します。</p>
         
         <div class="button-container">
-            <!-- 既存のボタン -->
-            <a href="/chart" class="start-button">予測を開始する</a>
-            
-            <!-- 工事中ボタン -->
-            <a href="#" class="start-button disabled">工事中</a>
-            <a href="#" class="start-button disabled">工事中</a>
-
-            <!-- 銘柄コード一覧ボタン -->
+            <a href="/chart" class="start-button">線形回帰で予測</a>
+            <a href="/ma_chart" class="start-button">移動平均で予測</a>
+            <a href="#" class="start-button disabled">市場ニュース (工事中)</a>
             <button id="list-button" class="start-button secondary">銘柄コード一覧</button>
         </div>
     </div>
 
-    <!-- ここからが銘柄一覧のポップアップ部分 -->
+    <!-- 銘柄一覧ポップアップ -->
     <div id="ticker-modal" class="modal-overlay">
         <div class="modal-content">
             <span class="close-button">&times;</span>
             <h2>主な企業の銘柄コード</h2>
-            
             <div class="ticker-list">
                 <div class="category">
                     <h3>アメリカの有名企業 (GAFAMなど)</h3>
@@ -39,17 +33,12 @@
                         <li><b>AMZN:</b> Amazon.com, Inc.</li>
                         <li><b>GOOGL:</b> Alphabet Inc. (Google)</li>
                         <li><b>META:</b> Meta Platforms, Inc.</li>
-                        <li><b>TSLA:</b> Tesla, Inc.</li>
-                        <li><b>NVDA:</b> NVIDIA Corporation</li>
                     </ul>
                 </div>
-
             </div>
         </div>
     </div>
-    <!-- ポップアップ部分ここまで -->
 
-    <!-- 外部のJavaScriptファイルを読み込む -->
     <script src="start.js" defer></script>
 </body>
 </html>

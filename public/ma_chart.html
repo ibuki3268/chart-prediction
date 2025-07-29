@@ -1,0 +1,29 @@
+    <!DOCTYPE html>
+    <html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>移動平均による株価チャート分析</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    </head>
+    <body>
+        <h1>単純移動平均による株価チャート分析</h1>
+    
+        <div id="search-container">
+            <input type="text" id="symbol-input" placeholder="例: AAPL, GOOGL">
+            <button id="search-button">チャート表示</button>
+            <a href="/" class="back-button">スタートページに戻る</a>
+        </div>
+    
+        <div id="chart-container">
+            <canvas id="stockChart"></canvas>
+        </div>
+    
+        <p id="loading-text">データを読み込み中...</p>
+    
+        <!-- このページ専用のJavaScriptを読み込みます -->
+        <script src="ma_chart.js"></script>
+    </body>
+    </html>
+    

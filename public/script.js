@@ -101,7 +101,6 @@ document.addEventListener('DOMContentLoaded', () => {
             updateChart();
         }
     });
-    // 初期表示としてIBMのチャートを表示
     document.getElementById('symbol-input').value = 'GOOGL';
     updateChart();
 });
